@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KaizenCheck</string>
+    <string name="lists_title">Minhas Listas</string>
+    <string name="add_list">Nova lista</string>
+    <string name="add_item">Novo item</string>
+    <string name="empty_lists">Nenhuma lista ainda</string>
+    <string name="empty_lists_hint">Toque em + para criar sua primeira checklist</string>
+    <string name="empty_items">Nenhum item</string>
+    <string name="empty_items_hint">Toque em + para adicionar itens</string>
+    <string name="list_name_hint">Nome da lista</string>
+    <string name="item_hint">O que precisa fazer?</string>
+    <string name="delete">Excluir</string>
+    <string name="edit">Editar</string>
+</resources>
