@@ -1,6 +1,6 @@
 # KaizenCheck
 
-Aplicativo Android de checklist dinâmico, profissional e estiloso.
+Aplicativo Android de checklist
 
 ## Funcionalidades
 
