@@ -1,102 +1,80 @@
 # KaizenCheck Mobile
 
-KaizenCheck foi migrado de um app Android nativo para um app mobile com React Native + TypeScript, inspirado no Microsoft To Do.
+Aplicativo de tarefas inspirado no Microsoft To Do, feito com React Native + TypeScript, autenticação por Firebase e sincronização em nuvem com Firestore.
 
-## Objetivo do produto
+## Visão geral
 
-Criar um app de produtividade simples e confiavel para listas e tarefas com:
-- autenticacao de usuario;
-- sincronizacao em nuvem em tempo real;
-- experiencia clara para criar, concluir e organizar tarefas.
+- Listas e tarefas por usuário
+- Login e cadastro com email/senha
+- Sincronização em tempo real
+- Organização por status (pendente/concluída)
+- Base preparada para evoluções (notificações, filtros, etc.)
 
-## Stack escolhida
+## Stack
 
-- **App:** React Native + TypeScript com Expo
-- **Navegacao:** Expo Router
-- **Backend/Banco:** Firebase (Auth + Firestore)
-- **Dados no app:** TanStack Query (cache, revalidacao, mutacoes)
-- **Estado de UI pontual:** Zustand
-
-## Por que Firebase
-
-Entre Appwrite, PocketBase, Convex e Firebase, o Firebase foi escolhido por:
-- setup rapido para MVP com Auth e banco sem servidor proprio;
-- SDK maduro para mobile;
-- Firestore com sincronizacao eficiente e evolucao facil para escala;
-- regras de seguranca robustas no proprio banco.
+- `expo` + `react-native` + `typescript`
+- `expo-router` para rotas
+- `firebase` (Auth + Firestore)
+- `@tanstack/react-query` para cache/mutações
+- `zustand` para estado de UI
 
 ## Requisitos
 
 - Node.js 20+
 - npm 10+
 - Conta Firebase
-- Expo Go no celular (ou emulador Android/iOS)
+- Expo Go (Android/iOS) ou emulador
 
-## Tutorial completo: conectar no Firebase e rodar
-
-### 1) Instalar requisitos
-
-- Instale `Node.js 20+`
-- Confirme no terminal:
-
-```bash
-node -v
-npm -v
-```
-
-### 2) Instalar dependencias do projeto
+## Setup rápido
 
 ```bash
 npm install
 ```
 
-### 3) Criar e preencher o `.env`
-
-No Windows PowerShell:
+Crie o `.env`:
 
 ```powershell
-Copy-Item .env.example .env
+Copy-Item .env.exemple .env
 ```
 
-No macOS/Linux:
+Depois rode:
 
 ```bash
-cp .env.example .env
+npm run start
 ```
 
-Depois abra o `.env` e preencha os valores do Firebase.
+## Configuração Firebase (passo a passo)
 
-### 4) Criar projeto Firebase
+### 1) Criar projeto
 
 1. Acesse [Firebase Console](https://console.firebase.google.com/)
-2. Clique em **Create a project**
-3. Dê o nome `kaizencheck` (ou outro)
-4. Ao finalizar, abra **Project settings**
-5. Em **Your apps**, clique no icone `</>` para criar um **Web App**
-6. Copie os dados de configuração (`apiKey`, `authDomain`, etc.)
+2. Crie um projeto
+3. Vá em `Project settings`
+4. Em `Your apps`, adicione um app Web (`</>`)
+5. Copie o objeto `firebaseConfig`
 
-### 5) Habilitar Authentication
+### 2) Habilitar Authentication
 
-1. Menu **Authentication**
-2. Aba **Sign-in method**
-3. Ative **Email/Password**
+1. `Authentication`
+2. `Sign-in method`
+3. Ative `Email/Password`
 
-### 6) Habilitar Firestore
+### 3) Habilitar Firestore
 
-1. Menu **Firestore Database**
-2. Clique em **Create database**
-3. Selecione a regiao (de preferencia a mais proxima dos usuarios)
-4. Pode iniciar em modo de teste e depois aplicar regras restritivas
+1. `Firestore Database`
+2. `Create database`
+3. Escolha a região
+4. Pode iniciar em modo de produção
 
-### 7) Aplicar regras de seguranca
+### 4) Aplicar regras
 
-1. Abra o menu **Firestore Database -> Rules**
-2. Copie e cole o conteudo do arquivo `firestore.rules`
-3. Clique em **Publish**
+1. Abra `Firestore -> Segurança` (ou `Rules` no console em inglês)
+2. Copie o conteúdo de `firestore.rules`
+3. Clique em `Publicar`
 
-### 8) Configurar variaveis no `.env`
+### 5) Configurar variáveis de ambiente
 
-Use os dados do seu projeto:
+Preencha o `.env` com os dados do seu projeto:
 
 ```env
 EXPO_PUBLIC_FIREBASE_API_KEY=...
@@ -107,7 +85,7 @@ EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 EXPO_PUBLIC_FIREBASE_APP_ID=...
 ```
 
-Mapeamento rapido:
+Mapeamento:
 - `EXPO_PUBLIC_FIREBASE_API_KEY` -> `apiKey`
 - `EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN` -> `authDomain`
 - `EXPO_PUBLIC_FIREBASE_PROJECT_ID` -> `projectId`
@@ -115,140 +93,73 @@ Mapeamento rapido:
 - `EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` -> `messagingSenderId`
 - `EXPO_PUBLIC_FIREBASE_APP_ID` -> `appId`
 
-### 9) Rodar o app
+## Como rodar
 
-```bash
-npm run start
-```
+- `npm run start` inicia o servidor Expo
+- No Android com Expo Go, escaneie o QR code
+- Para emulador Android, inicie o emulador antes e rode `npm run android`
+- Para web: `npm run web`
 
-Depois:
-- Android: `npm run android` ou ler QR no Expo Go
-- iOS: `npm run ios`
-- Web (teste rapido): `npm run web`
+## Comandos úteis
 
-### 10) Validar se conectou certo
+- `npm run typecheck`
+- `npm run lint`
+- `npx expo start -c` (limpar cache)
 
-Checklist:
-- abre tela de login sem erro
-- consegue criar conta
-- consegue criar lista
-- consegue criar tarefa
-- fecha e abre o app e os dados continuam (sync por conta)
+## Regras de negócio (MVP)
 
-Se tudo isso funciona, Firebase esta integrado corretamente.
-
-## Erros comuns e como resolver
-
-- **Erro de credencial Firebase**
-  - revise `.env` e reinicie o app (`Ctrl + C` e `npm run start`)
-- **Tela em branco ou erro de bundle**
-  - execute `npm install` novamente
-  - limpe cache: `npx expo start -c`
-- **Permissao negada no Firestore**
-  - confirme publicacao das regras em `firestore.rules`
-  - valide se esta logado (usuario autenticado)
+- Cada usuário acessa somente seus próprios dados
+- Lista/tarefa sem título não deve ser salva
+- Tarefa concluída registra `completedAt`
+- Reabrir tarefa limpa `completedAt`
+- Ordenação padrão: pendentes primeiro, depois concluídas
 
 ## Modelo de dados (Firestore)
 
-Colecoes:
-
 - `users/{uid}/lists/{listId}`
-  - `title: string`
-  - `color?: string`
-  - `order: number`
-  - `createdAt`, `updatedAt`
+  - `title`, `color`, `order`, `createdAt`, `updatedAt`
 - `users/{uid}/lists/{listId}/tasks/{taskId}`
-  - `title: string`
-  - `notes?: string`
-  - `dueDate?: string`
-  - `status: "pending" | "completed"`
-  - `order: number`
-  - `completedAt?: timestamp | null`
-  - `createdAt`, `updatedAt`
-
-## Regras de negocio (MVP)
-
-- Usuario autenticado acessa apenas os proprios dados.
-- Nao criar lista/tarefa sem titulo valido.
-- Ordenacao padrao de tarefas:
-  - pendentes primeiro;
-  - concluidas depois;
-  - ordem manual dentro de cada grupo.
-- Concluir tarefa registra `completedAt`; reabrir limpa `completedAt`.
-- Exclusao de lista no MVP eh definitiva (com confirmacao no fluxo de UI recomendado).
-
-## Requisitos de UX e engenharia de requisitos
-
-### Requisitos funcionais
-
-- Cadastro e login com email/senha
-- CRUD de listas
-- CRUD de tarefas dentro da lista
-- Concluir e reabrir tarefas
-- Sincronizacao de dados por conta
-
-### Requisitos nao funcionais
-
-- Interface responsiva e consistente
-- Feedback visual para loading, erro e vazio
-- Estrutura de codigo por feature para facilitar evolucao
-- Base pronta para offline-first incremental
-
-### Boas praticas de UX
-
-- foco em tarefas de alta frequencia (criar/concluir em poucos toques);
-- estados vazios com orientacao clara;
-- textos de acao objetivos;
-- contrastes e tamanhos adequados para acessibilidade.
+  - `title`, `notes`, `dueDate`, `status`, `order`, `completedAt`, `createdAt`, `updatedAt`
 
 ## Estrutura do projeto
 
 ```txt
 app/
+  (auth)/
+  (app)/
   _layout.tsx
   index.tsx
-  (auth)/
-    sign-in.tsx
-    sign-up.tsx
-  (app)/
-    lists.tsx
-    lists/[listId].tsx
 src/
   features/
     auth/
     lists/
     tasks/
-  providers/
   services/firebase/
+  providers/
   shared/
 firestore.rules
-.env.example
+.env.exemple
 ```
 
-## Scripts uteis
+## Troubleshooting
 
-- `npm run start` - inicia Metro/Expo
-- `npm run android` - abre no Android
-- `npm run ios` - abre no iOS
-- `npm run web` - roda em modo web
-- `npm run typecheck` - valida TypeScript
-- `npm run lint` - roda ESLint
+- **Expo Go em SDK diferente**
+  - atualize o projeto para o SDK suportado pelo app Expo Go
+- **No Android connected device found**
+  - conecte celular (USB debug) ou inicie emulador no Android Studio
+- **Permission denied no Firestore**
+  - publique as regras em `firestore.rules`
+- **Variáveis não carregando**
+  - revise `.env` e reinicie o Expo
 
-## Roadmap sugerido
+## Roadmap
 
-1. Filtros "Hoje", "Importante" e "Concluidas"
-2. Reordenacao drag-and-drop
-3. Notificacoes locais para prazos
-4. Recuperacao de senha
-5. Login Google e Apple
-6. Modo offline mais robusto (fila de mutacoes)
+1. Filtros (`Hoje`, `Importante`, `Concluídas`)
+2. Reordenação drag-and-drop
+3. Notificações locais
+4. Recuperação de senha
+5. Login Google/Apple
 
-## Observacoes de seguranca
-
-- Nunca commitar `.env` real
-- Regras Firestore devem estar restritivas antes de producao
-- Em producao, revisar limites e validacoes de campos nas regras
-
-## Licenca
+## Licença
 
 MIT
